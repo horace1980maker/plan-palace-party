@@ -26,16 +26,17 @@ const CTASection = () => {
             <li>✓ Nombre del respaldo + correo electrónico</li>
             <li>✓ Disponibilidad de horarios (Opción A o B)</li>
           </ul>
-          <motion.a
-            href="#"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-accent-foreground transition-shadow shadow-lg hover:shadow-xl"
-            style={{ background: "var(--accent-gradient)" }}
-          >
-            <Send className="w-5 h-5" />
-            Completar formulario de confirmación
-          </motion.a>
+          <Link to="/formulario">
+            <motion.span
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-accent-foreground transition-shadow shadow-lg hover:shadow-xl"
+              style={{ background: "var(--accent-gradient)" }}
+            >
+              <Send className="w-5 h-5" />
+              Completar formulario de confirmación
+            </motion.span>
+          </Link>
           <p className="text-primary-foreground/50 text-xs mt-4">
             El formulario toma menos de 3 minutos
           </p>

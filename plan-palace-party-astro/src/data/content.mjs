@@ -2,7 +2,7 @@ export const siteCopy = {
   metaTitle: "Plan Estratégico 2026 | Landing y Registro",
   metaDescription:
     "Una landing page clara y elegante para invitar organizaciones a un acompañamiento estratégico y registrar a su punto focal en Google Sheets.",
-  eyebrow: "Acompañamiento estratégico virtual · Cohorte 2026",
+  eyebrow: "Acompañamiento estratégico virtual",
   title: "Construyamos un plan estratégico",
   emphasis: "que su organización sí pueda usar",
   description:
@@ -14,7 +14,7 @@ export const siteCopy = {
     { label: "Fecha límite para confirmar", value: "01 de abril de 2026" },
     { label: "Duración del proceso", value: "Abril a julio 2026" },
     { label: "Formato", value: "100% virtual" },
-    { label: "Resultado", value: "Borrador avanzado del plan" },
+    { label: "Resultado", value: "Borrador avanzado del plan estratégico organizacional" },
   ],
 };
 
@@ -25,18 +25,22 @@ export const heroStats = [
   },
   {
     value: "5 fases",
-    label: "Un recorrido claro desde kickoff hasta validación final.",
+    label: "Un recorrido claro desde diagnóstico hasta validación final.",
   },
   {
     value: "1 borrador avanzado",
     label: "Un documento base listo para afinar e implementar.",
+  },
+   {
+    value: "Habilidades para el futuro",
+    label: "Capacidad instalada para el diseño de planes estratégicos",
   },
 ];
 
 export const processHighlights = [
   {
     title: "Trabajo acompañado, no clases",
-    text: "Cada sesión existe para producir avances reales. El foco no está en escuchar teoría, sino en tomar decisiones, ordenar ideas y mover el proceso hacia adelante.",
+    text: "Cada sesión existe para producir avances reales. El foco no está en escuchar teoría, sino en aprender herramientas, ordenar ideas, tomar decisiones y mover el proceso hacia adelante.",
   },
   {
     title: "Ritmo realista y fechas visibles",
@@ -51,7 +55,7 @@ export const processHighlights = [
 export const timeline = [
   {
     date: "06 abril 2026",
-    title: "Kickoff y alineación general",
+    title: "Arranque y alineación general",
     description: "Inicio del proceso, revisión de expectativas y acuerdos de trabajo.",
     note: "Sesión de apertura.",
   },
@@ -166,11 +170,11 @@ export const scheduleOptions = [
   {
     value: "Opción A | Mañana",
     title: "Opción A · Mañana",
-    detail: "Martes y jueves, 9:00 a 10:30 AM (hora Guatemala)",
+    detail: "Martes y jueves, 9:00 a 11:00 AM (hora Guatemala)",
   },
   {
     value: "Opción B | Tarde",
     title: "Opción B · Tarde",
-    detail: "Miércoles y viernes, 2:00 a 3:30 PM (hora Guatemala)",
+    detail: "Miércoles y viernes, 2:00 a 4:00 PM (hora Guatemala)",
   },
 ];

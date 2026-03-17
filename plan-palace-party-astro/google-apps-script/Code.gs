@@ -1,4 +1,4 @@
-const SPREADSHEET_ID = "REPLACE_WITH_YOUR_SPREADSHEET_ID";
+const SPREADSHEET_ID = "1vBsG7SRIJJFtW9AA0Vh6-XXh2ou5lY74ZtDVxoJn5wk";
 const SHEET_NAME = "Registros";
 const HEADERS = [
   "Timestamp",
@@ -22,7 +22,14 @@ function doPost(e) {
   try {
     const payload = normalizePayload_(e);
 
-    if (!payload.orgName || !payload.focalName || !payload.focalEmail || !payload.backupName || !payload.backupEmail || !payload.schedule) {
+    if (
+      !payload.orgName ||
+      !payload.focalName ||
+      !payload.focalEmail ||
+      !payload.backupName ||
+      !payload.backupEmail ||
+      !payload.schedule
+    ) {
       throw new Error("Faltan campos obligatorios.");
     }
 
@@ -114,7 +121,9 @@ function successResponse_(redirectUrl, message) {
 }
 
 function errorResponse_(error) {
-  return HtmlService.createHtmlOutput(buildHtml_(false, "No pudimos guardar el registro. " + error.message, ""))
+  return HtmlService.createHtmlOutput(
+    buildHtml_(false, "No pudimos guardar el registro. " + error.message, ""),
+  )
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
     .setTitle("Error de registro");
 }
@@ -122,31 +131,45 @@ function errorResponse_(error) {
 function buildHtml_(ok, message, redirectUrl) {
   const safeMessage = escapeHtml_(message);
   const redirectScript = redirectUrl
-    ? '<script>setTimeout(function(){window.top.location.href=' + JSON.stringify(redirectUrl) + ';}, 250);</script><noscript><meta http-equiv="refresh" content="0; url=' + escapeHtml_(redirectUrl) + '"></noscript>'
+    ? "<script>setTimeout(function(){window.top.location.href=" +
+      JSON.stringify(redirectUrl) +
+      ';}, 250);</script><noscript><meta http-equiv="refresh" content="0; url=' +
+      escapeHtml_(redirectUrl) +
+      '"></noscript>'
     : "";
 
-  return '<!doctype html>' +
+  return (
+    "<!doctype html>" +
     '<html lang="es">' +
-    '<head>' +
+    "<head>" +
     '<meta charset="UTF-8">' +
     '<meta name="viewport" content="width=device-width, initial-scale=1">' +
-    '<title>' + (ok ? 'Registro recibido' : 'Error de registro') + '</title>' +
-    '<style>' +
-    'body{margin:0;font-family:Arial,sans-serif;background:#f6f1e8;color:#163237;display:grid;place-items:center;min-height:100vh;padding:24px;}' +
-    '.card{max-width:520px;background:white;border-radius:20px;padding:32px;box-shadow:0 20px 50px rgba(0,0,0,.08);text-align:center;}' +
-    'h1{margin:0 0 12px;color:#0d5c63;font-size:28px;}' +
-    'p{line-height:1.6;margin:0 0 12px;}' +
-    '</style>' +
+    "<title>" +
+    (ok ? "Registro recibido" : "Error de registro") +
+    "</title>" +
+    "<style>" +
+    "body{margin:0;font-family:Arial,sans-serif;background:#f6f1e8;color:#163237;display:grid;place-items:center;min-height:100vh;padding:24px;}" +
+    ".card{max-width:520px;background:white;border-radius:20px;padding:32px;box-shadow:0 20px 50px rgba(0,0,0,.08);text-align:center;}" +
+    "h1{margin:0 0 12px;color:#0d5c63;font-size:28px;}" +
+    "p{line-height:1.6;margin:0 0 12px;}" +
+    "</style>" +
     redirectScript +
-    '</head>' +
-    '<body>' +
+    "</head>" +
+    "<body>" +
     '<div class="card">' +
-    '<h1>' + (ok ? 'Gracias' : 'No se pudo completar el registro') + '</h1>' +
-    '<p>' + safeMessage + '</p>' +
-    (redirectUrl ? '<p>Serás redirigido automáticamente en unos segundos.</p>' : '') +
-    '</div>' +
-    '</body>' +
-    '</html>';
+    "<h1>" +
+    (ok ? "Gracias" : "No se pudo completar el registro") +
+    "</h1>" +
+    "<p>" +
+    safeMessage +
+    "</p>" +
+    (redirectUrl
+      ? "<p>Serás redirigido automáticamente en unos segundos.</p>"
+      : "") +
+    "</div>" +
+    "</body>" +
+    "</html>"
+  );
 }
 
 function escapeHtml_(value) {

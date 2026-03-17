@@ -1,0 +1,160 @@
+---
+const { scheduleOptions = [], googleScriptUrl = "" } = Astro.props;
+const isConfigured = Boolean(googleScriptUrl);
+---
+
+<div class="registration-layout">
+  <div class="registration-copy">
+    <article class="surface-card surface-card-emphasis">
+      <p class="mini-label">Registro del punto focal</p>
+      <h3>Lo único que necesitamos para confirmar participación</h3>
+      <ul class="detail-list detail-list-compact">
+        <li>Nombre de la organización.</li>
+        <li>Datos del punto focal principal.</li>
+        <li>Datos de una persona de respaldo.</li>
+        <li>Horario preferido entre las dos opciones propuestas.</li>
+        <li>Comentarios relevantes o participantes adicionales, si aplica.</li>
+      </ul>
+      <p class="small-note">La información se enviará directamente a una Google Sheet para que puedas revisarla y administrarla fácilmente.</p>
+    </article>
+
+    <article class="surface-card">
+      <p class="mini-label">Antes de enviar</p>
+      <h3>Un formulario corto y muy fácil de completar</h3>
+      <p class="section-copy section-copy-tight">
+        Este formulario tarda menos de 3 minutos. Si más adelante necesitas cambiar un contacto o actualizar el horario, puedes reenviar un nuevo registro.
+      </p>
+      <p class="small-note">Consejo: ten a mano el correo del punto focal y de la persona de respaldo antes de empezar.</p>
+    </article>
+  </div>
+
+  <div class="surface-card form-card">
+    {!isConfigured && (
+      <div class="config-alert" role="status">
+        <strong>Falta configurar el enlace de Google Apps Script.</strong>
+        <span>Agrega <code>PUBLIC_GOOGLE_SCRIPT_URL</code> en tu entorno para activar el envío real a Google Sheets.</span>
+      </div>
+    )}
+
+    <form
+      id="registration-form"
+      class="registration-form"
+      method="POST"
+      action={isConfigured ? googleScriptUrl : "#"}
+      accept-charset="UTF-8"
+      data-configured={isConfigured ? "true" : "false"}
+    >
+      <input type="hidden" name="redirectUrl" value="" />
+      <input type="hidden" name="source" value="plan-palace-party-astro" />
+
+      <div class="honeypot" aria-hidden="true">
+        <label for="website">No llenar este campo</label>
+        <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <div class="form-grid">
+        <label class="field field-full">
+          <span>Nombre de la organización</span>
+          <input name="orgName" autocomplete="organization" required />
+        </label>
+
+        <label class="field">
+          <span>Nombre del punto focal</span>
+          <input name="focalName" autocomplete="name" required />
+        </label>
+
+        <label class="field">
+          <span>Correo del punto focal</span>
+          <input name="focalEmail" type="email" autocomplete="email" required />
+        </label>
+
+        <label class="field field-full">
+          <span>Teléfono del punto focal</span>
+          <input name="focalPhone" type="tel" autocomplete="tel" />
+        </label>
+
+        <label class="field">
+          <span>Nombre de la persona de respaldo</span>
+          <input name="backupName" autocomplete="name" required />
+        </label>
+
+        <label class="field">
+          <span>Correo de la persona de respaldo</span>
+          <input name="backupEmail" type="email" autocomplete="email" required />
+        </label>
+      </div>
+
+      <fieldset class="field-group">
+        <legend>Horario preferido</legend>
+        <div class="radio-grid">
+          {scheduleOptions.map((option, index) => (
+            <label class="schedule-option">
+              <input
+                class="schedule-option-input"
+                type="radio"
+                name="schedule"
+                value={option.value}
+                required={index === 0}
+              />
+              <span class="schedule-option-body">
+                <strong>{option.title}</strong>
+                <span>{option.detail}</span>
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <label class="field field-full">
+        <span>Participantes adicionales</span>
+        <textarea
+          name="additionalParticipants"
+          rows="4"
+          placeholder="Nombres, roles o personas que también participarían en algunas sesiones."
+        ></textarea>
+      </label>
+
+      <label class="field field-full">
+        <span>Comentarios o preguntas</span>
+        <textarea
+          name="comments"
+          rows="4"
+          placeholder="Cualquier detalle que debamos conocer antes de iniciar."
+        ></textarea>
+      </label>
+
+      <button class="button button-primary button-full" type="submit" disabled={!isConfigured}>
+        {isConfigured ? "Enviar registro" : "Configura el Google Script para activar el formulario"}
+      </button>
+
+      <p class="form-footnote">Al enviar, el registro se almacenará directamente en tu Google Sheet.</p>
+    </form>
+  </div>
+</div>
+
+<script is:inline>
+  const form = document.getElementById("registration-form");
+
+  if (form) {
+    const redirectInput = form.querySelector('input[name="redirectUrl"]');
+
+    if (redirectInput && window.location) {
+      redirectInput.value = `${window.location.origin}/gracias`;
+    }
+
+    form.addEventListener("submit", (event) => {
+      if (form.dataset.configured !== "true") {
+        event.preventDefault();
+        return;
+      }
+
+      const submitButton = form.querySelector('button[type="submit"]');
+
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = true;
+        submitButton.dataset.loading = "true";
+        submitButton.textContent = "Enviando registro...";
+      }
+    });
+  }
+</script>

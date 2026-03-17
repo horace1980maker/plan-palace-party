@@ -1,0 +1,208 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import Timeline from "../components/Timeline.astro";
+import RegistrationForm from "../components/RegistrationForm.astro";
+import {
+  siteCopy,
+  heroStats,
+  processHighlights,
+  timeline,
+  commitments,
+  preparationChecklist,
+  collaborationTools,
+  workRules,
+  outcomes,
+  scheduleOptions,
+} from "../data/content.mjs";
+
+const googleScriptUrl = import.meta.env.PUBLIC_GOOGLE_SCRIPT_URL ?? "";
+---
+
+<BaseLayout title={siteCopy.metaTitle} description={siteCopy.metaDescription}>
+  <main class="page-shell">
+    <section class="hero section">
+      <div class="hero-copy fade-rise">
+        <p class="eyebrow">{siteCopy.eyebrow}</p>
+        <h1>
+          {siteCopy.title}
+          <span>{siteCopy.emphasis}</span>
+        </h1>
+        <p class="hero-description">{siteCopy.description}</p>
+
+        <div class="hero-actions">
+          <a class="button button-primary" href="#registro">Registrar punto focal</a>
+          <a class="button button-ghost" href="#proceso">Ver proceso</a>
+        </div>
+
+        <div class="stat-strip">
+          {heroStats.map((item) => (
+            <article class="stat-card surface-card">
+              <strong>{item.value}</strong>
+              <span>{item.label}</span>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <aside class="hero-panel surface-card fade-rise fade-delay-1">
+        <p class="mini-label">Confirmaciones abiertas</p>
+        <h2>{siteCopy.panelTitle}</h2>
+        <p class="panel-copy">{siteCopy.panelDescription}</p>
+
+        <dl class="fact-list">
+          {siteCopy.panelFacts.map((fact) => (
+            <div>
+              <dt>{fact.label}</dt>
+              <dd>{fact.value}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <div class="divider"></div>
+
+        <ul class="detail-list detail-list-compact">
+          {commitments.map((item) => (
+            <li>
+              <strong>{item.title}</strong>
+              <span>{item.detail}</span>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    </section>
+
+    <section class="section">
+      <SectionHeader
+        eyebrow="Qué hace distinto este proceso"
+        title="Un acompañamiento práctico, claro y usable"
+        description="La meta no es consumir contenido: es que cada organización salga con decisiones mejor aterrizadas, un proceso ordenado y un borrador serio sobre el cual trabajar."
+      />
+
+      <div class="card-grid">
+        {processHighlights.map((item, index) => (
+          <article class={`surface-card card-lift fade-rise fade-delay-${index + 1}`}>
+            <p class="mini-label">Pilar {String(index + 1).padStart(2, "0")}</p>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="proceso" class="section section-soft">
+      <SectionHeader
+        eyebrow="Ruta de trabajo"
+        title="Cinco momentos para llegar a un borrador sólido"
+        description="Cada fase tiene un propósito claro y un resultado visible para que el avance no dependa de intuiciones, sino de hitos concretos."
+      />
+
+      <div class="process-grid">
+        <Timeline items={timeline} />
+
+        <div class="stack-grid">
+          <article class="surface-card">
+            <p class="mini-label">Compromisos clave</p>
+            <h3>Lo que se espera de cada organización</h3>
+            <ul class="detail-list">
+              {commitments.map((item) => (
+                <li>
+                  <strong>{item.title}</strong>
+                  <span>{item.detail}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+
+          <article class="surface-card">
+            <p class="mini-label">Horarios sugeridos</p>
+            <h3>Dos opciones para facilitar la coordinación</h3>
+            <div class="schedule-summary">
+              {scheduleOptions.map((option) => (
+                <div class="schedule-summary-card">
+                  <strong>{option.title}</strong>
+                  <span>{option.detail}</span>
+                </div>
+              ))}
+            </div>
+            <p class="small-note">Podrás indicar tu preferencia directamente en el formulario de registro.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <SectionHeader
+        eyebrow="Preparación"
+        title="Qué conviene reunir antes de empezar"
+        description="No necesitas tener todo resuelto desde el primer día, pero sí ayuda llegar con algunos insumos básicos y reglas de trabajo claras."
+      />
+
+      <div class="three-column-grid">
+        <article class="surface-card">
+          <p class="mini-label">Checklist inicial</p>
+          <h3>Documentos y referencias útiles</h3>
+          <ul class="detail-list">
+            {preparationChecklist.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </article>
+
+        <article class="surface-card">
+          <p class="mini-label">Herramientas y canales</p>
+          <h3>Cómo se organizará la colaboración</h3>
+          <ul class="detail-list">
+            {collaborationTools.map((item) => (
+              <li>
+                <strong>{item.title}</strong>
+                <span>{item.detail}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+
+        <article class="surface-card">
+          <p class="mini-label">Reglas de trabajo</p>
+          <h3>Acuerdos para sostener el proceso</h3>
+          <ul class="detail-list">
+            {workRules.map((item) => (
+              <li>
+                <strong>{item.title}</strong>
+                <span>{item.detail}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section-accent">
+      <SectionHeader
+        eyebrow="Resultado esperado"
+        title="Lo que tu organización se llevará al finalizar"
+        description="Cada fase aporta piezas concretas para que el proceso termine con material útil, no solo con conversaciones interesantes."
+      />
+
+      <div class="outcome-grid">
+        {outcomes.map((item) => (
+          <article class="surface-card outcome-card">
+            <p class="mini-label">Entregable</p>
+            <h3>{item.title}</h3>
+            <p>{item.detail}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="registro" class="section section-form">
+      <SectionHeader
+        eyebrow="Registro"
+        title="Comparte el contacto principal y deja lista tu participación"
+        description="El formulario toma menos de 3 minutos y la información se enviará directo a Google Sheets para que puedas administrarla con facilidad."
+      />
+
+      <RegistrationForm scheduleOptions={scheduleOptions} googleScriptUrl={googleScriptUrl} />
+    </section>
+  </main>
+</BaseLayout>

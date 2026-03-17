@@ -1,0 +1,17 @@
+---
+const { items = [] } = Astro.props;
+---
+
+<div class="timeline">
+  {items.map((item, index) => (
+    <article class="timeline-item">
+      <div class="timeline-index">{String(index + 1).padStart(2, "0")}</div>
+      <div class="surface-card timeline-card">
+        <p class="timeline-date">{item.date}</p>
+        <h3>{item.title}</h3>
+        <p>{item.description}</p>
+        {item.note && <p class="timeline-note">{item.note}</p>}
+      </div>
+    </article>
+  ))}
+</div>

@@ -41,6 +41,7 @@ const isConfigured = Boolean(googleScriptUrl);
       class="registration-form"
       method="POST"
       action={isConfigured ? googleScriptUrl : "#"}
+      target="registration-submit-target"
       accept-charset="UTF-8"
       data-configured={isConfigured ? "true" : "false"}
     >
@@ -125,6 +126,14 @@ const isConfigured = Boolean(googleScriptUrl);
 
       <p class="form-footnote">Si tienes problemas para enviar el formulario, por favor envia un correo a con la información solicitada a narvaezmena@gmail.com</p>
     </form>
+
+    <iframe
+      name="registration-submit-target"
+      title="Registro en segundo plano"
+      class="submission-frame"
+      tabindex="-1"
+      aria-hidden="true"
+    ></iframe>
   </div>
 </div>
 
@@ -134,6 +143,7 @@ const isConfigured = Boolean(googleScriptUrl);
   if (form) {
     const redirectInput = form.querySelector('input[name="redirectUrl"]');
     const statusNote = form.querySelector(".form-footnote");
+    const submissionFrame = document.querySelector('iframe[name="registration-submit-target"]');
     const defaultStatusText = statusNote?.textContent || "";
     const hostname = window.location?.hostname || "";
     const isPrivateHost =
@@ -146,9 +156,61 @@ const isConfigured = Boolean(googleScriptUrl);
       /^192\.168\./.test(hostname) ||
       /^172\.(1[6-9]|2\d|3[0-1])\./.test(hostname);
     const shouldUseClientRedirect = Boolean(window.location) && isPrivateHost;
+    const nextUrl = `${window.location.origin}/gracias`;
+    let submissionTimeout;
+    let awaitingFrameRedirect = false;
+    let frameLoadedOnce = false;
 
     if (redirectInput && window.location) {
-      redirectInput.value = shouldUseClientRedirect ? "" : `${window.location.origin}/gracias`;
+      redirectInput.value = shouldUseClientRedirect ? "" : nextUrl;
+    }
+
+    const resetSubmitState = (message) => {
+      const submitButton = form.querySelector('button[type="submit"]');
+
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = false;
+        delete submitButton.dataset.loading;
+        submitButton.textContent = "Enviar registro";
+      }
+
+      if (statusNote) {
+        statusNote.textContent = message || defaultStatusText;
+      }
+
+      awaitingFrameRedirect = false;
+
+      if (submissionTimeout) {
+        window.clearTimeout(submissionTimeout);
+        submissionTimeout = undefined;
+      }
+    };
+
+    if (submissionFrame) {
+      submissionFrame.addEventListener("load", () => {
+        if (!awaitingFrameRedirect) {
+          frameLoadedOnce = true;
+          return;
+        }
+
+        try {
+          const frameUrl = submissionFrame.contentWindow?.location?.href || "";
+
+          if (frameUrl.startsWith(nextUrl)) {
+            resetSubmitState();
+            window.location.assign(nextUrl);
+            return;
+          }
+        } catch (error) {
+          return;
+        }
+
+        if (frameLoadedOnce) {
+          resetSubmitState("No pudimos confirmar el envío. Intenta de nuevo en unos segundos.");
+        }
+
+        frameLoadedOnce = true;
+      });
     }
 
     form.addEventListener("submit", async (event) => {
@@ -170,13 +232,16 @@ const isConfigured = Boolean(googleScriptUrl);
       }
 
       if (!shouldUseClientRedirect) {
+        awaitingFrameRedirect = true;
+        submissionTimeout = window.setTimeout(() => {
+          resetSubmitState("El registro tardó demasiado en responder. Intenta nuevamente.");
+        }, 12000);
         return;
       }
 
       event.preventDefault();
 
       const targetUrl = form.getAttribute("action") || "";
-      const nextUrl = `${window.location.origin}/gracias`;
       const formData = new FormData(form);
       const payload = new URLSearchParams();
 
@@ -195,15 +260,7 @@ const isConfigured = Boolean(googleScriptUrl);
 
         window.location.assign(nextUrl);
       } catch (error) {
-        if (submitButton instanceof HTMLButtonElement) {
-          submitButton.disabled = false;
-          delete submitButton.dataset.loading;
-          submitButton.textContent = "Enviar registro";
-        }
-
-        if (statusNote) {
-          statusNote.textContent = "No pudimos enviar el formulario. Intenta de nuevo en unos segundos.";
-        }
+        resetSubmitState("No pudimos enviar el formulario. Intenta de nuevo en unos segundos.");
       }
     });
   }

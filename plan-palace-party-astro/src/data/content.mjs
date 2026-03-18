@@ -101,11 +101,11 @@ export const timeline = [
 export const commitments = [
   {
     title: "Nombrar un punto focal y un respaldo",
-    detail: "Esto asegura continuidad cuando la agenda del equipo cambia o surge alguna ausencia.",
+    detail: "Esto asegura continuidad cuando la agenda del equipo cambia o surge alguna ausencia. Se recomienda que el punto focal posea habilidades básicas de informática (manejo de Google Drive, Meet, etc.).",
   },
   {
     title: "Participación recomendada",
-    detail: "La decisión de quién participa depende de cada organización. Se recomienda incluir a personas con habilidades de facilitación ya que son quienes liderarán el proceso de construcción del plan estratégico dentro de su organización.",
+    detail: "La decisión de quién participa depende de cada organización. Se recomienda incluir a personas con habilidades de liderazgo y facilitación ya que son quienes liderarán el proceso de construcción del plan estratégico dentro de su organización.",
   },
   {
     title: "Cumplimiento de entregables internos",

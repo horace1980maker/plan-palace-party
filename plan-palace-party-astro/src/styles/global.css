@@ -617,18 +617,24 @@ select {
 }
 
 .field input,
-.field textarea {
+.field textarea,
+.field select {
   border-radius: var(--radius-sm);
   border: 1px solid rgba(13, 92, 99, 0.16);
   background: rgba(255, 255, 255, 0.86);
 }
 
 .field input,
-.field textarea {
+.field textarea,
+.field select {
   width: 100%;
   padding: 0.92rem 1rem;
   color: var(--text);
   transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.field select {
+  appearance: none;
 }
 
 .field textarea {
@@ -637,7 +643,8 @@ select {
 }
 
 .field input:focus,
-.field textarea:focus {
+.field textarea:focus,
+.field select:focus {
   outline: none;
   border-color: rgba(13, 92, 99, 0.5);
   box-shadow: 0 0 0 4px rgba(13, 92, 99, 0.08);
@@ -647,6 +654,12 @@ select {
   color: var(--primary);
   font-weight: 800;
   background: rgba(13, 92, 99, 0.06);
+}
+
+.field-help {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text-soft);
 }
 
 

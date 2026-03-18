@@ -10,6 +10,7 @@ const isConfigured = Boolean(googleScriptUrl);
       <h3>Lo único que necesitamos para confirmar participación</h3>
       <ul class="detail-list detail-list-compact">
         <li>Nombre de la organización.</li>
+        <li>Tamaño de la organización.</li>
         <li>Datos del punto focal principal.</li>
         <li>Datos de una persona de respaldo.</li>
         <li>Confirmacion de la reunión de arranque del martes 7 de abril a las 10:00 AM (hora de Honduras).</li>
@@ -56,6 +57,17 @@ const isConfigured = Boolean(googleScriptUrl);
         <label class="field field-full">
           <span>Nombre de la organizacion</span>
           <input name="orgName" autocomplete="organization" required />
+        </label>
+
+        <label class="field field-full">
+          <span>Tamaño de la Organización</span>
+          <select name="orgSize" required>
+            <option value="" selected disabled>Selecciona una opción</option>
+            <option value="1-10">1-10</option>
+            <option value="11-20">11-20</option>
+            <option value="Más de 20">Más de 20</option>
+          </select>
+          <small class="field-help">Número de personas que trabajan para la organización bajo un contrato.</small>
         </label>
 
         <label class="field">
@@ -121,9 +133,22 @@ const isConfigured = Boolean(googleScriptUrl);
 
   if (form) {
     const redirectInput = form.querySelector('input[name="redirectUrl"]');
+    const statusNote = form.querySelector(".form-footnote");
+    const defaultStatusText = statusNote?.textContent || "";
+    const hostname = window.location?.hostname || "";
+    const isPrivateHost =
+      hostname === "localhost" ||
+      hostname === "127.0.0.1" ||
+      hostname === "0.0.0.0" ||
+      hostname === "::1" ||
+      hostname === "[::1]" ||
+      /^10\./.test(hostname) ||
+      /^192\.168\./.test(hostname) ||
+      /^172\.(1[6-9]|2\d|3[0-1])\./.test(hostname);
+    const shouldUseClientRedirect = Boolean(window.location) && isPrivateHost;
 
     if (redirectInput && window.location) {
-      redirectInput.value = `${window.location.origin}/gracias`;
+      redirectInput.value = shouldUseClientRedirect ? "" : `${window.location.origin}/gracias`;
     }
 
     form.addEventListener("submit", async (event) => {
@@ -132,11 +157,26 @@ const isConfigured = Boolean(googleScriptUrl);
         return;
       }
 
+      const submitButton = form.querySelector('button[type="submit"]');
+
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = true;
+        submitButton.dataset.loading = "true";
+        submitButton.textContent = "Enviando registro...";
+      }
+
+      if (statusNote) {
+        statusNote.textContent = defaultStatusText;
+      }
+
+      if (!shouldUseClientRedirect) {
+        return;
+      }
+
       event.preventDefault();
 
-      const submitButton = form.querySelector('button[type="submit"]');
       const targetUrl = form.getAttribute("action") || "";
-      const nextUrl = redirectInput?.value || `${window.location.origin}/gracias`;
+      const nextUrl = `${window.location.origin}/gracias`;
       const formData = new FormData(form);
       const payload = new URLSearchParams();
 
@@ -144,12 +184,6 @@ const isConfigured = Boolean(googleScriptUrl);
         if (typeof value === "string") {
           payload.append(key, value);
         }
-      }
-
-      if (submitButton instanceof HTMLButtonElement) {
-        submitButton.disabled = true;
-        submitButton.dataset.loading = "true";
-        submitButton.textContent = "Enviando registro...";
       }
 
       try {
@@ -161,7 +195,15 @@ const isConfigured = Boolean(googleScriptUrl);
 
         window.location.assign(nextUrl);
       } catch (error) {
-        form.submit();
+        if (submitButton instanceof HTMLButtonElement) {
+          submitButton.disabled = false;
+          delete submitButton.dataset.loading;
+          submitButton.textContent = "Enviar registro";
+        }
+
+        if (statusNote) {
+          statusNote.textContent = "No pudimos enviar el formulario. Intenta de nuevo en unos segundos.";
+        }
       }
     });
   }

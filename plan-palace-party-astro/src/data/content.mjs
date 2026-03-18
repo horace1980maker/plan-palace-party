@@ -20,7 +20,7 @@
 
 export const heroStats = [
   {
-    value: "Martes 7 abril",
+    value: "Miércoles 15 abril",
     label: "Fecha única y confirmada para la reunión de arranque.",
   },
   {

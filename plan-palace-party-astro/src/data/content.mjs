@@ -1,7 +1,7 @@
 ﻿export const siteCopy = {
   metaTitle: "Plan Estrategico 2026 | Landing y Registro",
   metaDescription:
-    "Una landing page clara y elegante para invitar organizaciones a un acompañamiento estratégico y registrar a su punto focal en Google Sheets.",
+    "Invitación a organizaciones para el acompañamiento en la planificación estratégica y registro de su punto focal.",
   eyebrow: "Acompañamiento para la planificación estratégica",
   title: "Un plan estratégico construído por ustedes,",
   emphasis: "eso es lo que haremos juntos",

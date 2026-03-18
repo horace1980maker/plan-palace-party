@@ -3,8 +3,8 @@
   metaDescription:
     "Invitación a organizaciones para el acompañamiento en la planificación estratégica y registro de su punto focal.",
   eyebrow: "Acompañamiento para la planificación estratégica",
-  title: "Un plan estratégico construído por ustedes,",
-  emphasis: "eso es lo que haremos juntos",
+  title: "Un plan estratégico a la medida...",
+  emphasis: "construido por ustedes",
   description:
     "Esto no es un curso o un ciclo de conferencias, es un proceso de acompañamiento aplicado. Cada organización participante avanzará de forma estructurada: del diagnóstico inicial al borrador avanzado de su plan, con herramientas prácticas, revisiones focalizadas y trabajo concreto en cada sesión.",
   panelTitle: "Un proceso pensado para avanzar con orden y claridad",

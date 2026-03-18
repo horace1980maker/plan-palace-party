@@ -11,7 +11,7 @@
   panelDescription:
     "Desde abril hasta julio trabajaremos con sesiones compartidas, puntos de control y entregables concretos para que el esfuerzo de cada equipo se convierta en decisiones accionables.",
   panelFacts: [
-    { label: "Reunión de arranque", value: "Martes 7 de abril, 10:00 AM (hora de Honduras)" },
+    { label: "Reunión de arranque", value: "Miércoles 15 de abril, 10:00 AM (hora de Honduras)" },
     { label: "Fecha límite para confirmar", value: "01 de abril de 2026" },
     { label: "Formato", value: "100% virtual" },
     { label: "Resultado", value: "Borrador avanzado del plan estratégico organizacional" },
@@ -38,7 +38,7 @@ export const heroStats = [
 ];
 
 export const kickoffSession = {
-  title: "Martes 7 de abril, 10:00 AM (hora de Honduras)",
+  title: "Miércoles 15 de abril, 10:00 AM (hora de Honduras)",
   detail: "Reunión de arranque virtual para todas las organizaciones participantes.",
 };
 
@@ -59,7 +59,7 @@ export const processHighlights = [
 
 export const timeline = [
   {
-    date: "Martes 7 de abril, 10:00 AM (hora de Honduras)",
+    date: "Miércoles 15 de abril, 10:00 AM (hora de Honduras)",
     title: "Reunión de arranque y alineación general",
     description: "Inicio del proceso, revisión de expectativas y acuerdos de trabajo.",
     note: "Sesión de apertura.",

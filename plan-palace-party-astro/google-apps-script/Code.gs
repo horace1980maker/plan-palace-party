@@ -1,6 +1,6 @@
 ﻿const SPREADSHEET_ID = "1vBsG7SRIJJFtW9AA0Vh6-XXh2ou5lY74ZtDVxoJn5wk";
 const SHEET_NAME = "Registros";
-const DEFAULT_KICKOFF_DATE = "Martes 7 de abril, 10:00 AM (hora de Honduras)";
+const DEFAULT_KICKOFF_DATE = "Miércoles 15 de abril, 10:00 AM (hora de Honduras)";
 const LEGACY_HEADERS = [
   "Timestamp",
   "Organization Name",

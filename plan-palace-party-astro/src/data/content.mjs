@@ -1,24 +1,28 @@
-export const siteCopy = {
-  metaTitle: "Plan Estratégico 2026 | Landing y Registro",
+﻿export const siteCopy = {
+  metaTitle: "Plan Estrategico 2026 | Landing y Registro",
   metaDescription:
     "Una landing page clara y elegante para invitar organizaciones a un acompañamiento estratégico y registrar a su punto focal en Google Sheets.",
-  eyebrow: "Acompañamiento estratégico virtual",
-  title: "Construyamos un plan estratégico",
-  emphasis: "que su organización sí pueda usar",
+  eyebrow: "Acompañamiento para la planificación estratégica",
+  title: "Un plan estratégico construído por ustedes,",
+  emphasis: "eso es lo que haremos juntos",
   description:
-    "Este proceso está diseñado para que cada organización avance, paso a paso, desde un diagnóstico inicial hasta un borrador avanzado de su plan estratégico. No son clases: es un acompañamiento aplicado, con herramientas prácticas, revisiones puntuales y trabajo real sobre la mesa.",
+    "Esto no es un curso o un ciclo de conferencias, es un proceso de acompañamiento aplicado. Cada organización participante avanzará de forma estructurada: del diagnóstico inicial al borrador avanzado de su plan, con herramientas prácticas, revisiones focalizadas y trabajo concreto en cada sesión.",
   panelTitle: "Un proceso pensado para avanzar con orden y claridad",
   panelDescription:
     "Desde abril hasta julio trabajaremos con sesiones compartidas, puntos de control y entregables concretos para que el esfuerzo de cada equipo se convierta en decisiones accionables.",
   panelFacts: [
+    { label: "Reunión de arranque", value: "Martes 7 de abril, 10:00 AM (hora de Honduras)" },
     { label: "Fecha límite para confirmar", value: "01 de abril de 2026" },
-    { label: "Duración del proceso", value: "Abril a julio 2026" },
     { label: "Formato", value: "100% virtual" },
     { label: "Resultado", value: "Borrador avanzado del plan estratégico organizacional" },
   ],
 };
 
 export const heroStats = [
+  {
+    value: "Martes 7 abril",
+    label: "Fecha única y confirmada para la reunión de arranque.",
+  },
   {
     value: "100% virtual",
     label: "Participación flexible para equipos en distintos lugares.",
@@ -28,14 +32,15 @@ export const heroStats = [
     label: "Un recorrido claro desde diagnóstico hasta validación final.",
   },
   {
-    value: "1 borrador avanzado",
-    label: "Un documento base listo para afinar e implementar.",
-  },
-   {
     value: "Habilidades para el futuro",
-    label: "Capacidad instalada para el diseño de planes estratégicos",
+    label: "Capacidad instalada para el diseño de planes estratégicos.",
   },
 ];
+
+export const kickoffSession = {
+  title: "Martes 7 de abril, 10:00 AM (hora de Honduras)",
+  detail: "Reunión de arranque virtual para todas las organizaciones participantes.",
+};
 
 export const processHighlights = [
   {
@@ -54,31 +59,39 @@ export const processHighlights = [
 
 export const timeline = [
   {
-    date: "06 abril 2026",
-    title: "Arranque y alineación general",
+    date: "Martes 7 de abril, 10:00 AM (hora de Honduras)",
+    title: "Reunión de arranque y alineación general",
     description: "Inicio del proceso, revisión de expectativas y acuerdos de trabajo.",
     note: "Sesión de apertura.",
   },
   {
-    date: "20 abril – 08 mayo",
+    date: "20 abril - 08 mayo",
     title: "Fase de diagnóstico",
     description: "Análisis situacional de cada organización, revisión de contexto y prioridades actuales.",
     note: "Entregable 1: 08 mayo.",
   },
   {
-    date: "11 mayo – 05 junio",
+    date: "11 mayo - 05 junio",
     title: "Marco estratégico",
     description: "Definición o afinación de misión, visión, valores y objetivos estratégicos.",
     note: "Entregable 2: 05 junio.",
   },
   {
-    date: "08 junio – 03 julio",
+    type: "special",
+    badge: "IA",
+    date: "Webinar especial - fecha por confirmar",
+    title: "La Inteligencia Artificial al Servicio de las ONGs",
+    description: "Herramientas simples para desafios complejos.",
+    note: "Sesión adicional con enfoque práctico para fortalecer el trabajo de las organizaciones.",
+  },
+  {
+    date: "08 junio - 03 julio",
     title: "Construcción del borrador avanzado",
     description: "Integración del contenido del plan con estructura, prioridades y líneas de acción.",
     note: "Entregable 3: 03 julio.",
   },
   {
-    date: "06 julio – 31 julio",
+    date: "06 julio - 31 julio",
     title: "Validación y cierre",
     description: "Revisión final, ajustes y entrega de la versión consolidada para cada organización.",
     note: "Entregable 4: 31 julio.",
@@ -91,12 +104,16 @@ export const commitments = [
     detail: "Esto asegura continuidad cuando la agenda del equipo cambia o surge alguna ausencia.",
   },
   {
-    title: "Participación recomendada del liderazgo",
-    detail: "Idealmente se suma la dirección y, cuando convenga, una o dos personas clave para enriquecer decisiones.",
+    title: "Participación recomendada",
+    detail: "La decisión de quién participa depende de cada organización. Se recomienda incluir a personas con habilidades de facilitación ya que son quienes liderarán el proceso de construcción del plan estratégico dentro de su organización.",
   },
   {
     title: "Cumplimiento de entregables internos",
-    detail: "Diagnóstico, envío de insumos y validación final son piezas necesarias para llegar a un buen resultado.",
+    detail: "El diagnóstico, envío de insumos y validación final son piezas necesarias para llegar a un buen resultado. El punto focal es responsable de asegurar el cumplimiento de los entregables y los resultados dependen exclusivamente del compromiso de cada organización.",
+  },
+  {
+    title: "Memorando de entendimiento (MOU)",
+    detail: "Este documento será firmado por el punto focal al inicio del proceso y formaliza el compromiso de la organización con el acompañamiento, estableciendo las expectativas y responsabilidades de ambas partes.",
   },
 ];
 
@@ -106,25 +123,25 @@ export const preparationChecklist = [
   "Organigrama o estructura actual del equipo.",
   "Lista de programas o proyectos activos.",
   "Resumen breve de prioridades y retos actuales.",
-  "Requerimientos de donantes, si aplican al proceso.",
+  "Cualquier otro documento que consideren relevante.",
 ];
 
 export const collaborationTools = [
   {
     title: "Videoconferencias",
-    detail: "Zoom o Google Meet para sesiones grupales y puntos de control.",
+    detail: "Google Meet para sesiones grupales y puntos de control. Se enviarán enlaces por correo electrónico.",
   },
   {
     title: "Repositorio compartido",
-    detail: "Google Drive o SharePoint para organizar documentos por organización.",
+    detail: "Google Drive para organizar documentos por organización.",
   },
   {
     title: "Canal ágil de seguimiento",
     detail: "WhatsApp o correo para recordatorios, coordinación y avisos urgentes.",
   },
   {
-    title: "Convención clara de archivos",
-    detail: "Nombres simples y consistentes para evitar versiones confusas.",
+    title: "Correo electrónico de Gmail",
+    detail: "Se sugiere tener una cuenta de Gmail para facilitar la colaboración en Google Drive y acceso a los recursos compartidos.",
   },
 ];
 
@@ -163,18 +180,5 @@ export const outcomes = [
   {
     title: "Próximos pasos",
     detail: "Recomendaciones para aterrizar prioridades, implementación y seguimiento.",
-  },
-];
-
-export const scheduleOptions = [
-  {
-    value: "Opción A | Mañana",
-    title: "Opción A · Mañana",
-    detail: "Martes y jueves, 9:00 a 11:00 AM (hora Guatemala)",
-  },
-  {
-    value: "Opción B | Tarde",
-    title: "Opción B · Tarde",
-    detail: "Miércoles y viernes, 2:00 a 4:00 PM (hora Guatemala)",
   },
 ];

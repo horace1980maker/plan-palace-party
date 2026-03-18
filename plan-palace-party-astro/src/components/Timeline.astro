@@ -1,17 +1,23 @@
----
+﻿---
 const { items = [] } = Astro.props;
+let stepIndex = 0;
 ---
 
 <div class="timeline">
-  {items.map((item, index) => (
-    <article class="timeline-item">
-      <div class="timeline-index">{String(index + 1).padStart(2, "0")}</div>
-      <div class="surface-card timeline-card">
-        <p class="timeline-date">{item.date}</p>
-        <h3>{item.title}</h3>
-        <p>{item.description}</p>
-        {item.note && <p class="timeline-note">{item.note}</p>}
-      </div>
-    </article>
-  ))}
+  {items.map((item) => {
+    const isSpecial = item.type === "special";
+    const badge = isSpecial ? item.badge || "IA" : String(++stepIndex).padStart(2, "0");
+
+    return (
+      <article class={`timeline-item ${isSpecial ? "timeline-item-special" : ""}`}>
+        <div class={`timeline-index ${isSpecial ? "timeline-index-special" : ""}`}>{badge}</div>
+        <div class={`surface-card timeline-card ${isSpecial ? "surface-card-emphasis timeline-card-special" : ""}`}>
+          <p class={`timeline-date ${isSpecial ? "timeline-date-special" : ""}`}>{item.date}</p>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+          {item.note && <p class={`timeline-note ${isSpecial ? "timeline-note-special" : ""}`}>{item.note}</p>}
+        </div>
+      </article>
+    );
+  })}
 </div>

@@ -1,4 +1,4 @@
----
+﻿---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import Timeline from "../components/Timeline.astro";
@@ -6,6 +6,7 @@ import RegistrationForm from "../components/RegistrationForm.astro";
 import {
   siteCopy,
   heroStats,
+  kickoffSession,
   processHighlights,
   timeline,
   commitments,
@@ -13,7 +14,6 @@ import {
   collaborationTools,
   workRules,
   outcomes,
-  scheduleOptions,
 } from "../data/content.mjs";
 
 const googleScriptUrl = import.meta.env.PUBLIC_GOOGLE_SCRIPT_URL ?? "";
@@ -29,6 +29,12 @@ const googleScriptUrl = import.meta.env.PUBLIC_GOOGLE_SCRIPT_URL ?? "";
           <span>{siteCopy.emphasis}</span>
         </h1>
         <p class="hero-description">{siteCopy.description}</p>
+
+        <article class="hero-date-card surface-card">
+          <p class="mini-label">Reunión de arranque</p>
+          <strong>{kickoffSession.title}</strong>
+          <span>{kickoffSession.detail}</span>
+        </article>
 
         <div class="hero-actions">
           <a class="button button-primary" href="#registro">Registrar punto focal</a>
@@ -46,7 +52,7 @@ const googleScriptUrl = import.meta.env.PUBLIC_GOOGLE_SCRIPT_URL ?? "";
       </div>
 
       <aside class="hero-panel surface-card fade-rise fade-delay-1">
-        <p class="mini-label">Confirmaciones abiertas</p>
+        <p class="mini-label">Información clave</p>
         <h2>{siteCopy.panelTitle}</h2>
         <p class="panel-copy">{siteCopy.panelDescription}</p>
 
@@ -74,9 +80,9 @@ const googleScriptUrl = import.meta.env.PUBLIC_GOOGLE_SCRIPT_URL ?? "";
 
     <section class="section">
       <SectionHeader
-        eyebrow="Qué hace distinto este proceso"
+        eyebrow="¿Qué hace distinto este proceso?"
         title="Un acompañamiento práctico, claro y usable"
-        description="La meta no es consumir contenido: es que cada organización salga con decisiones mejor aterrizadas, un proceso ordenado y un borrador avanzado sobre el cual trabajar."
+        description="La meta no es consumir contenido: es que cada organización salga con decisiones y/o estrategias mejor aterrizadas, un proceso ordenado y un borrador avanzado sobre el cual trabajar."
       />
 
       <div class="card-grid">
@@ -93,8 +99,8 @@ const googleScriptUrl = import.meta.env.PUBLIC_GOOGLE_SCRIPT_URL ?? "";
     <section id="proceso" class="section section-soft">
       <SectionHeader
         eyebrow="Ruta de trabajo"
-        title="Cinco momentos para llegar a un borrador sólido"
-        description="Cada fase tiene un propósito claro y un resultado visible para que el avance no dependa de intuiciones, sino de hitos concretos."
+        title="Cinco momentos para llegar a un borrador solido"
+        description="Cada fase tiene un proposito claro y un resultado visible para que el avance no dependa de intuiciones, sino de hitos concretos."
       />
 
       <div class="process-grid">
@@ -103,7 +109,7 @@ const googleScriptUrl = import.meta.env.PUBLIC_GOOGLE_SCRIPT_URL ?? "";
         <div class="stack-grid">
           <article class="surface-card">
             <p class="mini-label">Compromisos clave</p>
-            <h3>Lo que se espera de cada organización</h3>
+            <h3>Lo que se espera de cada organizacion</h3>
             <ul class="detail-list">
               {commitments.map((item) => (
                 <li>
@@ -115,17 +121,15 @@ const googleScriptUrl = import.meta.env.PUBLIC_GOOGLE_SCRIPT_URL ?? "";
           </article>
 
           <article class="surface-card">
-            <p class="mini-label">Horarios sugeridos</p>
-            <h3>Dos opciones para facilitar la coordinación</h3>
+            <p class="mini-label">Reunión de arranque</p>
+            <h3>Fecha para iniciar con todo el grupo</h3>
             <div class="schedule-summary">
-              {scheduleOptions.map((option) => (
-                <div class="schedule-summary-card">
-                  <strong>{option.title}</strong>
-                  <span>{option.detail}</span>
-                </div>
-              ))}
+              <div class="schedule-summary-card">
+                <strong>{kickoffSession.title}</strong>
+                <span>{kickoffSession.detail}</span>
+              </div>
             </div>
-            <p class="small-note">Podrás indicar tu preferencia directamente en el formulario de registro.</p>
+            <p class="small-note">{kickoffSession.note}</p>
           </article>
         </div>
       </div>
@@ -133,15 +137,16 @@ const googleScriptUrl = import.meta.env.PUBLIC_GOOGLE_SCRIPT_URL ?? "";
 
     <section class="section">
       <SectionHeader
-        eyebrow="Preparación"
-        title="Qué conviene reunir antes de empezar"
-        description="No necesitas tener todo resuelto desde el primer día, pero sí ayuda llegar con algunos insumos básicos y reglas de trabajo claras."
+        eyebrow="Preparacion"
+        title="Que conviene reunir antes de empezar"
+        description="No necesitas tener todo resuelto desde el primer dia, pero si ayuda llegar con algunos insumos basicos y reglas de trabajo claras."
       />
 
       <div class="three-column-grid">
         <article class="surface-card">
           <p class="mini-label">Checklist inicial</p>
           <h3>Documentos y referencias útiles</h3>
+          <h5>Serán solicitados como parte del diagnóstico inicial después de la reunión de arranque</h5>
           <ul class="detail-list">
             {preparationChecklist.map((item) => (
               <li>{item}</li>
@@ -151,7 +156,7 @@ const googleScriptUrl = import.meta.env.PUBLIC_GOOGLE_SCRIPT_URL ?? "";
 
         <article class="surface-card">
           <p class="mini-label">Herramientas y canales</p>
-          <h3>Cómo se organizará la colaboración</h3>
+          <h3>Como se organizará la colaboración</h3>
           <ul class="detail-list">
             {collaborationTools.map((item) => (
               <li>
@@ -199,10 +204,10 @@ const googleScriptUrl = import.meta.env.PUBLIC_GOOGLE_SCRIPT_URL ?? "";
       <SectionHeader
         eyebrow="Registro"
         title="Comparte el contacto principal y deja lista tu participación"
-        description="El formulario toma menos de 3 minutos y la información se enviará directo a Google Sheets para que puedas administrarla con facilidad."
+        description="El formulario toma menos de 3 minutos. La reunión de arranque ya tiene fecha confirmada para el martes 7 de abril a las 10:00 AM (hora de Honduras) y la información para conectarse se enviará directo a los correos registrados."
       />
 
-      <RegistrationForm scheduleOptions={scheduleOptions} googleScriptUrl={googleScriptUrl} />
+      <RegistrationForm googleScriptUrl={googleScriptUrl} kickoffDate={kickoffSession.title} />
     </section>
   </main>
 </BaseLayout>

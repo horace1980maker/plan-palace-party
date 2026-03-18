@@ -1,5 +1,6 @@
-const SPREADSHEET_ID = "1vBsG7SRIJJFtW9AA0Vh6-XXh2ou5lY74ZtDVxoJn5wk";
+﻿const SPREADSHEET_ID = "1vBsG7SRIJJFtW9AA0Vh6-XXh2ou5lY74ZtDVxoJn5wk";
 const SHEET_NAME = "Registros";
+const DEFAULT_KICKOFF_DATE = "Martes 7 de abril, 10:00 AM (hora de Honduras)";
 const HEADERS = [
   "Timestamp",
   "Organization Name",
@@ -8,7 +9,7 @@ const HEADERS = [
   "Focal Phone",
   "Backup Name",
   "Backup Email",
-  "Schedule",
+  "Kickoff Date",
   "Additional Participants",
   "Comments",
   "Source",
@@ -27,8 +28,7 @@ function doPost(e) {
       !payload.focalName ||
       !payload.focalEmail ||
       !payload.backupName ||
-      !payload.backupEmail ||
-      !payload.schedule
+      !payload.backupEmail
     ) {
       throw new Error("Faltan campos obligatorios.");
     }
@@ -48,7 +48,7 @@ function doPost(e) {
       payload.focalPhone,
       payload.backupName,
       payload.backupEmail,
-      payload.schedule,
+      payload.kickoffDate,
       payload.additionalParticipants,
       payload.comments,
       payload.source,
@@ -70,7 +70,7 @@ function normalizePayload_(e) {
     focalPhone: valueOrEmpty_(params.focalPhone),
     backupName: valueOrEmpty_(params.backupName),
     backupEmail: valueOrEmpty_(params.backupEmail),
-    schedule: valueOrEmpty_(params.schedule),
+    kickoffDate: valueOrEmpty_(params.kickoffDate) || DEFAULT_KICKOFF_DATE,
     additionalParticipants: valueOrEmpty_(params.additionalParticipants),
     comments: valueOrEmpty_(params.comments),
     source: valueOrEmpty_(params.source),
@@ -97,6 +97,16 @@ function getSheet_() {
 function ensureHeaders_(sheet) {
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(HEADERS);
+    return;
+  }
+
+  const currentHeaders = sheet.getRange(1, 1, 1, HEADERS.length).getValues()[0];
+  const needsUpdate = HEADERS.some(function (header, index) {
+    return currentHeaders[index] !== header;
+  });
+
+  if (needsUpdate) {
+    sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
   }
 }
 
@@ -164,7 +174,7 @@ function buildHtml_(ok, message, redirectUrl) {
     safeMessage +
     "</p>" +
     (redirectUrl
-      ? "<p>Serás redirigido automáticamente en unos segundos.</p>"
+      ? "<p>Seras redirigido automaticamente en unos segundos.</p>"
       : "") +
     "</div>" +
     "</body>" +

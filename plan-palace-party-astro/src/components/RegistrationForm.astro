@@ -1,5 +1,5 @@
----
-const { scheduleOptions = [], googleScriptUrl = "" } = Astro.props;
+﻿---
+const { kickoffDate = "Martes 7 de abril, 10:00 AM (hora de Honduras)", googleScriptUrl = "" } = Astro.props;
 const isConfigured = Boolean(googleScriptUrl);
 ---
 
@@ -12,17 +12,16 @@ const isConfigured = Boolean(googleScriptUrl);
         <li>Nombre de la organización.</li>
         <li>Datos del punto focal principal.</li>
         <li>Datos de una persona de respaldo.</li>
-        <li>Horario preferido entre las dos opciones propuestas.</li>
+        <li>Confirmacion de la reunión de arranque del martes 7 de abril a las 10:00 AM (hora de Honduras).</li>
         <li>Comentarios relevantes o participantes adicionales, si aplica.</li>
-      </ul>
-      <p class="small-note">La información se enviará directamente a una Google Sheet para que puedas revisarla y administrarla fácilmente.</p>
+      </ul>      
     </article>
 
     <article class="surface-card">
       <p class="mini-label">Antes de enviar</p>
       <h3>Un formulario corto y muy fácil de completar</h3>
       <p class="section-copy section-copy-tight">
-        Este formulario tarda menos de 3 minutos. Si más adelante necesitas cambiar un contacto o actualizar el horario, puedes reenviar un nuevo registro.
+        Este formulario tarda menos de 3 minutos. Recuerda que la reunión de arranque ya está confirmada para el martes 7 de abril, a las 10:00 AM (hora de Honduras).
       </p>
       <p class="small-note">Consejo: ten a mano el correo del punto focal y de la persona de respaldo antes de empezar.</p>
     </article>
@@ -32,7 +31,7 @@ const isConfigured = Boolean(googleScriptUrl);
     {!isConfigured && (
       <div class="config-alert" role="status">
         <strong>Falta configurar el enlace de Google Apps Script.</strong>
-        <span>Agrega <code>PUBLIC_GOOGLE_SCRIPT_URL</code> en tu entorno para activar el envío real a Google Sheets.</span>
+        <span>Agrega <code>PUBLIC_GOOGLE_SCRIPT_URL</code> en tu entorno para activar el envio real a Google Sheets.</span>
       </div>
     )}
 
@@ -46,6 +45,7 @@ const isConfigured = Boolean(googleScriptUrl);
     >
       <input type="hidden" name="redirectUrl" value="" />
       <input type="hidden" name="source" value="plan-palace-party-astro" />
+      <input type="hidden" name="kickoffDate" value={kickoffDate} />
 
       <div class="honeypot" aria-hidden="true">
         <label for="website">No llenar este campo</label>
@@ -54,7 +54,7 @@ const isConfigured = Boolean(googleScriptUrl);
 
       <div class="form-grid">
         <label class="field field-full">
-          <span>Nombre de la organización</span>
+          <span>Nombre de la organizacion</span>
           <input name="orgName" autocomplete="organization" required />
         </label>
 
@@ -69,7 +69,7 @@ const isConfigured = Boolean(googleScriptUrl);
         </label>
 
         <label class="field field-full">
-          <span>Teléfono del punto focal</span>
+          <span>Telefono del punto focal</span>
           <input name="focalPhone" type="tel" autocomplete="tel" />
         </label>
 
@@ -82,35 +82,19 @@ const isConfigured = Boolean(googleScriptUrl);
           <span>Correo de la persona de respaldo</span>
           <input name="backupEmail" type="email" autocomplete="email" required />
         </label>
-      </div>
 
-      <fieldset class="field-group">
-        <legend>Horario preferido</legend>
-        <div class="radio-grid">
-          {scheduleOptions.map((option, index) => (
-            <label class="schedule-option">
-              <input
-                class="schedule-option-input"
-                type="radio"
-                name="schedule"
-                value={option.value}
-                required={index === 0}
-              />
-              <span class="schedule-option-body">
-                <strong>{option.title}</strong>
-                <span>{option.detail}</span>
-              </span>
-            </label>
-          ))}
-        </div>
-      </fieldset>
+        <label class="field field-full">
+          <span>Reunión de arranque confirmada</span>
+          <input value={kickoffDate} readonly />
+        </label>
+      </div>
 
       <label class="field field-full">
         <span>Participantes adicionales</span>
         <textarea
           name="additionalParticipants"
           rows="4"
-          placeholder="Nombres, roles o personas que también participarían en algunas sesiones."
+          placeholder="Nombres, roles o personas que tambien participarian en algunas sesiones."
         ></textarea>
       </label>
 
@@ -127,7 +111,7 @@ const isConfigured = Boolean(googleScriptUrl);
         {isConfigured ? "Enviar registro" : "Configura el Google Script para activar el formulario"}
       </button>
 
-      <p class="form-footnote">Al enviar, el registro se almacenará directamente en tu Google Sheet.</p>
+      <p class="form-footnote">Al enviar, el registro se almacenara directamente en tu Google Sheet junto con la fecha fija de arranque.</p>
     </form>
   </div>
 </div>
@@ -142,18 +126,42 @@ const isConfigured = Boolean(googleScriptUrl);
       redirectInput.value = `${window.location.origin}/gracias`;
     }
 
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
       if (form.dataset.configured !== "true") {
         event.preventDefault();
         return;
       }
 
+      event.preventDefault();
+
       const submitButton = form.querySelector('button[type="submit"]');
+      const targetUrl = form.getAttribute("action") || "";
+      const nextUrl = redirectInput?.value || `${window.location.origin}/gracias`;
+      const formData = new FormData(form);
+      const payload = new URLSearchParams();
+
+      for (const [key, value] of formData.entries()) {
+        if (typeof value === "string") {
+          payload.append(key, value);
+        }
+      }
 
       if (submitButton instanceof HTMLButtonElement) {
         submitButton.disabled = true;
         submitButton.dataset.loading = "true";
         submitButton.textContent = "Enviando registro...";
+      }
+
+      try {
+        await fetch(targetUrl, {
+          method: "POST",
+          mode: "no-cors",
+          body: payload,
+        });
+
+        window.location.assign(nextUrl);
+      } catch (error) {
+        form.submit();
       }
     });
   }
